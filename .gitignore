@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/encodings.xml
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/httpRequests/http-client.cookies
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/httpRequests/http-requests-log.http
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/indexLayout.xml
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/projectSettingsUpdater.xml
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/vcs.xml
+/AspNetCoreSample/.idea/.idea.AspNetCoreSample/.idea/workspace.xml
