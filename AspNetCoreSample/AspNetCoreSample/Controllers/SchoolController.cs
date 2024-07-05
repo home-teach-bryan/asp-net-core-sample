@@ -1,5 +1,6 @@
 ﻿using AspNetCoreSample.Models;
 using AspNetCoreSample.Models.Request;
+using AspNetCoreSample.Models.Response;
 using AspNetCoreSample.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace AspNetCoreSample.Controllers;
 /// 學校相關API
 /// </summary>
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class SchoolController : ControllerBase
 {
     private readonly ISchoolService _schoolService;
@@ -82,10 +83,15 @@ public class SchoolController : ControllerBase
     public async Task<IActionResult> GetSchools()
     {
         var schools = await _schoolService.GetSchoolsAsync();
+        var result = schools.Select(item => new GetSchoolResponse
+        {
+            Id = item.Id,
+            Name = item.Name
+        });
         return Ok(new
         {
             Status = true,
-            Data = schools
+            Data = result,
         });
     }
     
@@ -102,7 +108,7 @@ public class SchoolController : ControllerBase
         return Ok(new
         {
             Status = true,
-            Data = school
+            Data = new GetSchoolResponse{ Id = school.Id, Name = school.Name }
         });
     }
 }

@@ -25,7 +25,7 @@ public interface ISchoolService
     /// 學校清單
     /// </summary>
     /// <returns></returns>
-    Task<List<GetSchoolResponse>> GetSchoolsAsync();
+    Task<List<School>> GetSchoolsAsync();
     
     /// <summary>
     /// 刪除學校
@@ -39,5 +39,5 @@ public interface ISchoolService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<GetSchoolResponse> GetSchoolAsync(Guid id);
+    Task<School> GetSchoolAsync(Guid id);
 }

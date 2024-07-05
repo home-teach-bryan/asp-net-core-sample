@@ -44,14 +44,9 @@ public class SchoolService : ISchoolService
     /// 學校清單
     /// </summary>
     /// <returns></returns>
-    public Task<List<GetSchoolResponse>> GetSchoolsAsync()
+    public Task<List<School>> GetSchoolsAsync()
     {
-        var result = _schools.Select(item => new GetSchoolResponse
-        {
-            Id = item.Id,
-            Name = item.Name
-        }).ToList();
-        return Task.FromResult(result);
+        return Task.FromResult(_schools);
     }
 
     /// <summary>
@@ -75,17 +70,16 @@ public class SchoolService : ISchoolService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<GetSchoolResponse> GetSchoolAsync(Guid id)
+    public Task<School> GetSchoolAsync(Guid id)
     {
         var school = _schools.FirstOrDefault(item => item.Id == id);
         if (school != null)
         {
-            return Task.FromResult(new GetSchoolResponse
-            {
-                Id = school.Id,
-                Name = school.Name
-            });
+            return Task.FromResult(school);
         }
-        return Task.FromResult<GetSchoolResponse>(null);
+
+        return Task.FromResult<School>(school);
     }
+    
+    
 }
