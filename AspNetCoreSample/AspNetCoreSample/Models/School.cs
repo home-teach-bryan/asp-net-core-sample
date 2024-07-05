@@ -10,4 +10,9 @@ public class School
         Id = id;
         Name = name;
     }
+
+    public void SetName(string name)
+    {
+        this.Name = name;
+    }
 }
