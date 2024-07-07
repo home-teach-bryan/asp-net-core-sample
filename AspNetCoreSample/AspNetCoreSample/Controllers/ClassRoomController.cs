@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspNetCoreSample.Controllers;
 
 [ApiController]
-[Route("api/School/{schoolId}/ClassRoom")]
+[Route("api/School/{schoolId}/[controller]")]
 public class ClassRoomController : ControllerBase
 {
     private readonly IClassRoomService _classRoomService;
@@ -24,9 +24,9 @@ public class ClassRoomController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("")]
-    public async Task<IActionResult> AddClassRoom([FromRoute] Guid schoolId, [FromBody] AddClassRoomRequest request)
+    public async Task<IActionResult> AddClassRoom([FromRoute] string schoolId, [FromBody] AddClassRoomRequest request)
     {
-        var result = await _classRoomService.AddClassRoomAsync(Guid.NewGuid(), request.Name, schoolId);
+        var result = await _classRoomService.AddClassRoomAsync(request.Id, request.Name, schoolId);
         return Ok(new
         {
             Status = result
@@ -42,7 +42,7 @@ public class ClassRoomController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route("{id}")]
-    public async Task<IActionResult> UpdateClassRoom([FromRoute] Guid schoolId, [FromRoute] Guid id, [FromBody] UpdateClassRoomRequest request)
+    public async Task<IActionResult> UpdateClassRoom([FromRoute] string schoolId, [FromRoute] string id, [FromBody] UpdateClassRoomRequest request)
     {
         var result = await _classRoomService.UpdateClassRoomAsync(id, request.Name, schoolId);
         return Ok(new
@@ -59,7 +59,7 @@ public class ClassRoomController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteClassRoom([FromRoute] Guid schoolId, [FromRoute] Guid id)
+    public async Task<IActionResult> DeleteClassRoom([FromRoute] string schoolId, [FromRoute] string id)
     {
         var result = await _classRoomService.DeleteClassRoomAsync(id, schoolId);
         return Ok(new
@@ -75,7 +75,7 @@ public class ClassRoomController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
-    public async Task<IActionResult> GetClassRooms([FromRoute] Guid schoolId)
+    public async Task<IActionResult> GetClassRooms([FromRoute] string schoolId)
     {
         var classRooms = await _classRoomService.GetClassRoomsAsync(schoolId);
         return Ok(new
@@ -97,7 +97,7 @@ public class ClassRoomController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> GetClassRoom([FromRoute] Guid schoolId, [FromRoute] Guid id)
+    public async Task<IActionResult> GetClassRoom([FromRoute] string schoolId, [FromRoute] string id)
     {
         var classRoom = await _classRoomService.GetClassRoomAsync(id, schoolId);
         if (classRoom == null)
@@ -110,6 +110,7 @@ public class ClassRoomController : ControllerBase
             Data = new GetClassRoomResponse { Id = classRoom.Id, Name = classRoom.Name }
         });
     }
-    
+
+   
     
 }

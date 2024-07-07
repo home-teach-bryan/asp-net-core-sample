@@ -5,7 +5,7 @@ public class GetClassRoomResponse
     /// <summary>
     /// 課程編號
     /// </summary>
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     
     /// <summary>
     /// 課程名稱

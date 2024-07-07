@@ -33,7 +33,7 @@ public class SchoolController : ControllerBase
     [Route("")]
     public async Task<IActionResult> AddSchool([FromBody] AddSchoolRequest request)
     {
-        var result = await _schoolService.AddSchoolAsync(Guid.NewGuid(), request.Name);
+        var result = await _schoolService.AddSchoolAsync(request.Id, request.Name);
         return Ok(new
         {
             Status = result
@@ -48,7 +48,7 @@ public class SchoolController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route("{id}")]
-    public async Task<IActionResult> UpdateSchool([FromRoute] Guid id, [FromBody] UpdateSchoolRequest request)
+    public async Task<IActionResult> UpdateSchool([FromRoute] string id, [FromBody] UpdateSchoolRequest request)
     {
         var result = await _schoolService.UpdateSchoolAsync(id, request.Name);
         return Ok(new
@@ -64,7 +64,7 @@ public class SchoolController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteSchool([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteSchool([FromRoute] string id)
     {
         var result = await _schoolService.DeleteSchoolAsync(id);
         return Ok(new
@@ -101,7 +101,7 @@ public class SchoolController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> GetSchool([FromRoute] Guid id)
+    public async Task<IActionResult> GetSchool([FromRoute] string id)
     {
         var school = await _schoolService.GetSchoolAsync(id);
         if (school == null)
@@ -114,4 +114,60 @@ public class SchoolController : ControllerBase
             Data = new GetSchoolResponse{ Id = school.Id, Name = school.Name }
         });
     }
+
+    /// <summary>
+    /// 新增學生到班級
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost]
+    [Route("{id}/classrooms/{classRoomId}/student")]
+    public async Task<IActionResult> AddStudentToClassRoom([FromRoute] string id, [FromRoute] string classRoomId, [FromBody] AddStudentClassRoomRequest request)
+    {
+        var result = await _schoolService.AddStudentToClassRoomAsync(id, classRoomId, request.StudentId);
+        return Ok(new
+        {
+            Status = result
+        });
+    }
+    
+    /// <summary>
+    /// 從班級移除學生
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="classRoomId"></param>
+    /// <param name="studentId"></param>
+    /// <returns></returns>
+    [HttpDelete]
+    [Route("{id}/classrooms/{classRoomId}/student/{studentId}")]
+    public async Task<IActionResult> DeleteStudentFromClassRoom([FromRoute] string id, [FromRoute] string classRoomId, [FromRoute] string studentId)
+    {
+        var result = await _schoolService.DeleteStudentFromClassRoomAsync(id, classRoomId, studentId);
+        return Ok(new
+        {
+            Status = result
+        });
+    }
+    
+    /// <summary>
+    /// 取得班級學生
+    /// </summary>
+    /// <param name="schoolId"></param>
+    /// <param name="classRoomId"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("{schoolId}/classroom/{classRoomId}/student")]
+    public async Task<IActionResult> GetStudentsFromClassRoom([FromRoute]string schoolId,[FromRoute] string classRoomId)
+    {
+        var students = await _schoolService.GetStudentsFromClassRoomAsync(classRoomId, schoolId);
+        return Ok(new
+        {
+            Status = true,
+            Data = students.Select(item => new GetStudentResponse
+            {
+                Id = item.Id,
+                Name = item.Name
+            })
+        });
+    }
+    
 }

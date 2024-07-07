@@ -2,21 +2,19 @@
 
 namespace AspNetCoreSample.Models.Request;
 
-/// <summary>
-/// 新增學校Request
-/// </summary>
-public class AddSchoolRequest
+public class AddStudentRequest
 {
+ 
     /// <summary>
-    /// 學校編號
+    /// 學生編號
     /// </summary>
     [Required]
     public string Id { get; set; }
     
     /// <summary>
-    /// 學校名稱
+    /// 學生名字
     /// </summary>
     [Required(AllowEmptyStrings = false)]
-    [MaxLength(10, ErrorMessage = "學校名稱最長為10")]
+    [MaxLength(10, ErrorMessage = "學生名字最長為10個字元")]
     public string Name { get; set; }
 }

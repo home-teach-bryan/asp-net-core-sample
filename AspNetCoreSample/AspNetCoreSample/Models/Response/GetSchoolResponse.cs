@@ -5,7 +5,7 @@ public class GetSchoolResponse
     /// <summary>
     /// 學校編號
     /// </summary>
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     
     /// <summary>
     /// 學校名稱

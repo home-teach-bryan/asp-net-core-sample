@@ -5,6 +5,12 @@ namespace AspNetCoreSample.Models.Request;
 public class AddClassRoomRequest
 {
     /// <summary>
+    /// 課程ID
+    /// </summary>
+    [Required]
+    public string Id { get; set; }
+    
+    /// <summary>
     /// 課程名稱
     /// </summary>
     [Required(AllowEmptyStrings = false)]

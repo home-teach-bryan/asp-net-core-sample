@@ -10,7 +10,7 @@ public class ClassRoomService : IClassRoomService
     {
         _schoolService = schoolService;
     }
-    public async Task<List<ClassRoom>> GetClassRoomsAsync(Guid schoolId)
+    public async Task<List<ClassRoom>> GetClassRoomsAsync(string schoolId)
     {
         var school = await _schoolService.GetSchoolAsync(schoolId);
         if (school == null)
@@ -20,7 +20,7 @@ public class ClassRoomService : IClassRoomService
         return school.GetClassRooms(); 
     }
 
-    public async Task<bool> AddClassRoomAsync(Guid id, string name, Guid schoolId)
+    public async Task<bool> AddClassRoomAsync(string id, string name, string schoolId)
     {
         var school = await _schoolService.GetSchoolAsync(schoolId);
         if (school == null)
@@ -31,7 +31,7 @@ public class ClassRoomService : IClassRoomService
         return isSuccess;
     }
 
-    public async Task<bool> UpdateClassRoomAsync(Guid id, string name, Guid schoolId)
+    public async Task<bool> UpdateClassRoomAsync(string id, string name, string schoolId)
     {
          var school = await _schoolService.GetSchoolAsync(schoolId);
          if (school == null)
@@ -47,7 +47,7 @@ public class ClassRoomService : IClassRoomService
          return true;
     }
 
-    public async Task<bool> DeleteClassRoomAsync(Guid id, Guid schoolId)
+    public async Task<bool> DeleteClassRoomAsync(string id, string schoolId)
     {
          var school = await _schoolService.GetSchoolAsync(schoolId);
          if (school == null)
@@ -63,13 +63,16 @@ public class ClassRoomService : IClassRoomService
          return true;
     }
 
-    public async Task<ClassRoom?> GetClassRoomAsync(Guid id, Guid schoolId)
+    public async Task<ClassRoom?> GetClassRoomAsync(string id, string schoolId)
     {
         var school = await _schoolService.GetSchoolAsync(schoolId);
         if (school != null)
         {
             return school.GetClassRoom(id);
         }
-        return new ClassRoom();
+        return null;
     }
+
+    
+    
 }
