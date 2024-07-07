@@ -29,8 +29,8 @@ public class SchoolController : ControllerBase
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [Route("")]
     [HttpPost]
+    [Route("")]
     public async Task<IActionResult> AddSchool([FromBody] AddSchoolRequest request)
     {
         var result = await _schoolService.AddSchoolAsync(Guid.NewGuid(), request.Name);
@@ -46,9 +46,8 @@ public class SchoolController : ControllerBase
     /// <param name="id"></param>
     /// <param name="request"></param>
     /// <returns></returns>
-    [Route("{id}")]
     [HttpPut]
-    
+    [Route("{id}")]
     public async Task<IActionResult> UpdateSchool([FromRoute] Guid id, [FromBody] UpdateSchoolRequest request)
     {
         var result = await _schoolService.UpdateSchoolAsync(id, request.Name);
@@ -63,8 +62,8 @@ public class SchoolController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("{id}")]
     [HttpDelete]
+    [Route("{id}")]
     public async Task<IActionResult> DeleteSchool([FromRoute] Guid id)
     {
         var result = await _schoolService.DeleteSchoolAsync(id);
@@ -78,8 +77,8 @@ public class SchoolController : ControllerBase
     /// 取得學校清單
     /// </summary>
     /// <returns></returns>
-    [Route("")]
     [HttpGet]
+    [Route("")]
     public async Task<IActionResult> GetSchools()
     {
         var schools = await _schoolService.GetSchoolsAsync();
@@ -100,11 +99,15 @@ public class SchoolController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("{id}")]
     [HttpGet]
+    [Route("{id}")]
     public async Task<IActionResult> GetSchool([FromRoute] Guid id)
     {
         var school = await _schoolService.GetSchoolAsync(id);
+        if (school == null)
+        {
+            return NotFound();
+        }
         return Ok(new
         {
             Status = true,

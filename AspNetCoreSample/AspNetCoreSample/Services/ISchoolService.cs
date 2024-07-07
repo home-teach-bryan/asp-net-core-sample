@@ -39,5 +39,5 @@ public interface ISchoolService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<School> GetSchoolAsync(Guid id);
+    Task<School?> GetSchoolAsync(Guid id);
 }

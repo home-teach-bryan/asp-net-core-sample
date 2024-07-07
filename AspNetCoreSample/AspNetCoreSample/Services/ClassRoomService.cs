@@ -4,55 +4,72 @@ namespace AspNetCoreSample.Services;
 
 public class ClassRoomService : IClassRoomService
 {
-    private List<ClassRoom> _classRooms = new List<ClassRoom>();
+    private readonly ISchoolService _schoolService;
 
-    public Task<List<ClassRoom>> GetClassRoomsAsync()
+    public ClassRoomService(ISchoolService schoolService)
     {
-        return Task.FromResult(_classRooms);
+        _schoolService = schoolService;
+    }
+    public async Task<List<ClassRoom>> GetClassRoomsAsync(Guid schoolId)
+    {
+        var school = await _schoolService.GetSchoolAsync(schoolId);
+        if (school == null)
+        {
+            return new List<ClassRoom>();
+        }
+        return school.GetClassRooms(); 
     }
 
-    public Task<bool> AddClassRoomAsync(Guid id, string name, Guid schoolId)
+    public async Task<bool> AddClassRoomAsync(Guid id, string name, Guid schoolId)
     {
-        if (_classRooms.Any(item => item.Id == id || item.Name == name))
+        var school = await _schoolService.GetSchoolAsync(schoolId);
+        if (school == null)
         {
-            return Task.FromResult(false);
+            return false;
         }
-
-        _classRooms.Add(new ClassRoom(id, name, schoolId));
-        return Task.FromResult(true);
+        var isSuccess = school.AddClassRoom(new ClassRoom(id, name));
+        return isSuccess;
     }
 
-    public Task<bool> UpdateClassRoomAsync(Guid id, string name)
+    public async Task<bool> UpdateClassRoomAsync(Guid id, string name, Guid schoolId)
     {
-        var classRoom = _classRooms.FirstOrDefault(item => item.Id == id || item.Name == name);
-        if (classRoom == null) 
-        {
-            return Task.FromResult(false);
-        }
-
-        classRoom.SetName(name);
-        return Task.FromResult(true);
+         var school = await _schoolService.GetSchoolAsync(schoolId);
+         if (school == null)
+         {
+             return false;
+         }
+         var classRoom = school.GetClassRoom(id);
+         if (classRoom == null)
+         {
+             return false;
+         }
+         classRoom.SetName(name);
+         return true;
     }
 
-    public Task<bool> DeleteClassRoomAsync(Guid id)
+    public async Task<bool> DeleteClassRoomAsync(Guid id, Guid schoolId)
     {
-        var classRoom = _classRooms.FirstOrDefault(item => item.Id == id);
-        if (classRoom == null)
-        {
-            return Task.FromResult(false);
-        }
-
-        _classRooms.Remove(classRoom);
-        return Task.FromResult(true);
+         var school = await _schoolService.GetSchoolAsync(schoolId);
+         if (school == null)
+         {
+             return false;
+         }
+         var classRoom = school.GetClassRoom(id);
+         if (classRoom == null)
+         {
+             return false;
+         }
+         school.RemoveClassRoom(classRoom);
+         return true;
     }
 
-    public Task<ClassRoom> GetClassRoomAsync(Guid id)
+    public async Task<ClassRoom?> GetClassRoomAsync(Guid id, Guid schoolId)
     {
-        var classRoom = _classRooms.FirstOrDefault(item => item.Id == id);
-        if (classRoom == null)
+        var school = await _schoolService.GetSchoolAsync(schoolId);
+        if (school != null)
         {
-            return Task.FromResult<ClassRoom>(classRoom);
+            return school.GetClassRoom(id);
         }
-        return Task.FromResult<ClassRoom>(classRoom);
+        return new ClassRoom();
     }
 }

@@ -4,10 +4,12 @@ namespace AspNetCoreSample.Services;
 
 public interface IClassRoomService
 {
-    Task<List<ClassRoom>> GetClassRoomsAsync();
-    Task<ClassRoom> GetClassRoomAsync(Guid id);
+    Task<List<ClassRoom>> GetClassRoomsAsync(Guid schoolId);
+
     Task<bool> AddClassRoomAsync(Guid id, string name, Guid schoolId);
-    Task<bool> DeleteClassRoomAsync(Guid id);
-    
-    Task<bool> UpdateClassRoomAsync(Guid id, string name);
+
+    Task<bool> UpdateClassRoomAsync(Guid id, string name, Guid schoolId);
+
+    Task<bool> DeleteClassRoomAsync(Guid id, Guid schoolId);
+    Task<ClassRoom?> GetClassRoomAsync(Guid id, Guid schoolId);
 }

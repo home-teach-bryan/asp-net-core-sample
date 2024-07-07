@@ -20,7 +20,7 @@ public class SchoolService : ISchoolService
             return Task.FromResult(false);
         }
         _schools.Add(new School(id, name));
-        return Task.FromResult(false);
+        return Task.FromResult(true);
     }
 
     /// <summary>
@@ -32,12 +32,12 @@ public class SchoolService : ISchoolService
     public Task<bool> UpdateSchoolAsync(Guid id, string name)
     {
         var school = _schools.FirstOrDefault(item => item.Id == id);
-        if (school != null)
+        if (school == null)
         {
-            school.SetName(name);
-            return Task.FromResult(true);
+            return Task.FromResult(false);
         }
-        return Task.FromResult(false);
+        school.SetName(name);
+        return Task.FromResult(true);
     }
 
     /// <summary>
@@ -57,12 +57,13 @@ public class SchoolService : ISchoolService
     public Task<bool> DeleteSchoolAsync(Guid id)
     {
         var school = _schools.FirstOrDefault(item => item.Id == id);
-        if (school != null)
+        if (school == null)
         {
-            _schools.Remove(school);
-            return Task.FromResult(true);
+            return Task.FromResult(false);
         }
-        return Task.FromResult(false);
+        _schools.Remove(school);
+        return Task.FromResult(true);
+        
     }
 
     /// <summary>
@@ -70,16 +71,9 @@ public class SchoolService : ISchoolService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<School> GetSchoolAsync(Guid id)
+    public Task<School?> GetSchoolAsync(Guid id)
     {
         var school = _schools.FirstOrDefault(item => item.Id == id);
-        if (school != null)
-        {
-            return Task.FromResult(school);
-        }
-
-        return Task.FromResult<School>(school);
+        return Task.FromResult(school);
     }
-    
-    
 }
