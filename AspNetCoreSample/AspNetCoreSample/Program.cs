@@ -1,5 +1,4 @@
 using System.Reflection;
-using AspNetCoreSample.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
@@ -16,8 +15,6 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSingleton<ISchoolService, SchoolService>();
-        builder.Services.AddSingleton<IClassRoomService, ClassRoomService>();
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
 
